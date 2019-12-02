@@ -12,6 +12,8 @@ firebase.initializeApp({
 // REFERENCE FIRESTORE INSTAGRAM DOCUMENT
 let dbRef = firebase.firestore()
   .collection("instagram");
+let queryDB = dbRef.orderBy("timeStamp", "asc");
+// let dbRef = instagramdb.orderBy("timeStamp", "asc");
 // REFERENCE FIREBASE STORAGE
 let storageRef = firebase.storage().ref();
 // DECLARE WEB STATE VARIABLES
@@ -31,7 +33,8 @@ let state = {
       postImage: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/1211695/tropical_beach.jpg',
       likes: 36,
       upVoted: true,
-      caption: "When you're too ready for summer '18 ☀️"
+      caption: "When you're too ready for summer '18 ☀️",
+      timeStamp: 0000
     },
     {
       _id: '1',
@@ -40,7 +43,8 @@ let state = {
       postImage: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/1211695/downtown.jpg',
       likes: 20,
       upVoted: false,
-      caption: 'Views from the six...'
+      caption: 'Views from the six...',
+      timeStamp: 0001
     },
     {
       _id: '2',
@@ -49,7 +53,8 @@ let state = {
       postImage: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/1211695/puppers.jpg',
       likes: 49,
       upVoted: false,
-      caption: 'Current mood 🐶'
+      caption: 'Current mood 🐶',
+      timeStamp: 0002
     }
   ]
 };
@@ -101,7 +106,8 @@ function uploadPost(url, msg) {
     "postImage": url,
     "likes": 0,
     "upVoted": false,
-    "caption": msg
+    "caption": msg,
+    "timeStamp": Date.now()
   })
   .then(function(){
     $('#avatar-upload__btn').removeClass('is-loading');
@@ -135,7 +141,8 @@ function updatePosts() {
             postImage: doc.data().postImage,
             likes: doc.data().likes,
             upVoted: doc.data().upVoted,
-            caption: doc.data().caption
+            caption: doc.data().caption,
+            timeStamp: doc.data().timeStamp
             });            
         });
         console.log(state.posts);
