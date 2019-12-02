@@ -129,7 +129,7 @@ function updatePosts() {
     .then(function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
            state.posts.unshift({
-            _id: doc.id,
+            _id: String(Math.floor(Math.random()*10000)),
             username: doc.data().userName,
             userImage: doc.data().userImage,
             postImage: doc.data().postImage,
