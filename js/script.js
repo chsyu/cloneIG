@@ -1,3 +1,12 @@
+// REGISTER SERVICE WORKER
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker
+    .register('/service-worker.js')
+    .then(function() {
+      console.log('Service worker registered!');
+    });
+}
+
 // INITIALIZE FIREBASE
 firebase.initializeApp({
   apiKey: "AIzaSyBWkL1ZDkWwGW8IaEVFEhniEJFfM284wwE",
