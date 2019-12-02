@@ -63,7 +63,7 @@ body {
   padding: 5px 0;
 }
 .instagram-post__item .header {
-  height: 30px;
+  height: 3em;
   border-bottom: 1px solid #fff;
   margin: 7.5px 10px;
 }
@@ -71,6 +71,20 @@ body {
   width: 2em;
   height: 2em;
   display: inline-block;
+}
+
+.header-menu {
+  cursor: pointer;
+  width: 2em;
+  height: 2em;
+  border-radius: 2em;
+  text-align: center;
+  line-height: 2em;
+  transition: all 0.2s ease-in-out;
+}
+
+.header-menu:hover {
+  background-color: rgb(242, 240, 240);
 }
 
 .instagram-post {

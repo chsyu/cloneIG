@@ -28,6 +28,7 @@ let state = {
   posts: [
     {
       _id: '0',
+      dbID: '0',
       username: 'socleansofreshh',
       userImage: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/1211695/me_3.jpg',
       postImage: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/1211695/tropical_beach.jpg',
@@ -38,6 +39,7 @@ let state = {
     },
     {
       _id: '1',
+      dbID: '1',
       username: 'djirdehh',
       userImage: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/1211695/me2.png',
       postImage: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/1211695/downtown.jpg',
@@ -48,6 +50,7 @@ let state = {
     },
     {
       _id: '2',
+      dbID: '2',
       username: 'puppers',
       userImage: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/1211695/pug_personal.jpg',
       postImage: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/1211695/puppers.jpg',
@@ -131,11 +134,12 @@ function gotoHome(){
 }
 
 function updatePosts() {
-  dbRef.get()
+  queryDB.get()
     .then(function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
            state.posts.unshift({
             _id: String(Math.floor(Math.random()*10000)),
+            dbID: doc.id,
             username: doc.data().userName,
             userImage: doc.data().userImage,
             postImage: doc.data().postImage,
@@ -165,6 +169,9 @@ function renderPosts() {
           <img src="${post.userImage}" />
         </figure>
         <span class="username">${post.username}</span>
+      </div>
+      <div class="level-right">
+        <p class="header-menu">•••</p>
       </div>
     </div>
 
