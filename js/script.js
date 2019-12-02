@@ -110,7 +110,6 @@ function uploadPost(url, msg) {
   });
 }
 
-
 function like(id) {
   state.posts.some(function (post) {
     if (post._id == id) {
