@@ -66,6 +66,8 @@ body {
   height: 3em;
   border-bottom: 1px solid #fff;
   margin: 7.5px 10px;
+  display: flex;
+  align-items: center;
 }
 .header-image {
   width: 2em;
@@ -79,8 +81,11 @@ body {
   height: 2em;
   border-radius: 2em;
   text-align: center;
-  line-height: 2em;
   transition: all 0.2s ease-in-out;
+}
+
+.level-right {
+  margin-top: 0 !important;
 }
 
 .header-menu:hover {
