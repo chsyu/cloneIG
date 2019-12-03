@@ -8,7 +8,7 @@
       "sizes": "48x48"
     }
   ],
-  "start_url": "/index.html",
+  "start_url": "/cloneinstagram/index.html",
   "scope": ".",
   "display": "standalone",
   "orientation": "portrait",
