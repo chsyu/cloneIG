@@ -1,12 +1,3 @@
-// REGISTER SERVICE WORKER
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker
-    .register('/service-worker.js')
-    .then(function() {
-      console.log('Service worker registered!');
-    });
-}
-
 // INITIALIZE FIREBASE
 firebase.initializeApp({
   apiKey: "AIzaSyBWkL1ZDkWwGW8IaEVFEhniEJFfM284wwE",
@@ -22,7 +13,6 @@ firebase.initializeApp({
 let dbRef = firebase.firestore()
   .collection("instagram");
 let queryDB = dbRef.orderBy("timeStamp", "asc");
-// let dbRef = instagramdb.orderBy("timeStamp", "asc");
 // REFERENCE FIREBASE STORAGE
 let storageRef = firebase.storage().ref();
 // DECLARE WEB STATE VARIABLES
@@ -37,7 +27,6 @@ let state = {
   posts: [
     {
       _id: '0',
-      dbID: '0',
       username: 'socleansofreshh',
       userImage: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/1211695/me_3.jpg',
       postImage: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/1211695/tropical_beach.jpg',
@@ -48,7 +37,6 @@ let state = {
     },
     {
       _id: '1',
-      dbID: '1',
       username: 'djirdehh',
       userImage: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/1211695/me2.png',
       postImage: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/1211695/downtown.jpg',
@@ -59,7 +47,6 @@ let state = {
     },
     {
       _id: '2',
-      dbID: '2',
       username: 'puppers',
       userImage: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/1211695/pug_personal.jpg',
       postImage: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/1211695/puppers.jpg',
@@ -72,7 +59,7 @@ let state = {
 };
 
 // RENDER SCREEN
-updatePosts();
+updateStateAndRender();
 // REGISTER JQUERY EVENTS
 $("#imageUpload").change(function () { previewImage(this); });
 $("#avatar-upload__btn").click(uploadImage);
@@ -111,6 +98,15 @@ function uploadImage() {
     });
 }
 
+function uploadupVolted (post) {
+  let docRef = dbRef.doc(post.dbID);
+  docRef.update({
+    "upVoted": post.upVoted
+  }).catch(function(e) {
+    console.log(e);
+  });
+}
+
 function uploadPost(url, msg) {
   dbRef.add({
     "userName": state.profile.name,
@@ -124,7 +120,7 @@ function uploadPost(url, msg) {
   .then(function(){
     $('#avatar-upload__btn').removeClass('is-loading');
     gotoHome();
-    updatePosts();
+    updateStateAndRender();
   });
 }
 
@@ -133,16 +129,19 @@ function like(id) {
     if (post._id == id) {
       post.upVoted ? post.likes-- : post.likes++;
       post.upVoted = !post.upVoted;
+      if (post.dbID) {
+        uploadupVolted(post);
+      }
     }
   });
-  renderPosts();
+  render();
 }
 
 function gotoHome(){
   window.location.href = "./index.html";
 }
 
-function updatePosts() {
+function updateStateAndRender() {
   queryDB.get()
     .then(function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
@@ -159,14 +158,14 @@ function updatePosts() {
             });            
         });
         console.log(state.posts);
-        renderPosts()
+        render()
     })
     .catch(function(e){
       console.log('error'+e);
     })
 }
 
-function renderPosts() {
+function render() {
   $('#instagram-post').html('');
   state.posts.forEach(function (post) {
     let postItem =
